@@ -1,0 +1,16 @@
+BÁO CÁO TỐI ƯU HÓA TRUY VẤN DATABASE BẰNG INDEX
+-----------------------------------------------
+
+1. KẾT QUẢ TRUY VẤN (SELECT)
+- Trước khi đánh Index: Mất khoảng [Ví dụ: 0.850] giây. 
+  -> Giải thích: Máy tính phải đọc toàn bộ 500.000 dòng từ đầu đến cuối (Full Table Scan) mới tìm được số điện thoại cần tìm.
+- Sau khi đánh Index: Mất khoảng [Ví dụ: 0.000] giây.
+  -> Giải thích: Máy tính sử dụng "mục lục" (Index) để nhảy thẳng đến dòng chứa số điện thoại, không cần đọc các dòng khác.
+
+2. KẾT QUẢ GHI DỮ LIỆU (INSERT)
+- Khi chèn thêm bệnh nhân mới, hệ thống có chậm đi một chút (khoảng 10-20%) vì máy vừa phải lưu dữ liệu mới, vừa phải cập nhật lại "mục lục" Index.
+- Tuy nhiên, sự chậm trễ này là rất nhỏ (vài phần nghìn giây), không đáng kể so với việc tiết kiệm được hàng giây chờ đợi khi tìm kiếm.
+
+3. KẾT LUẬN (SỰ ĐÁNH ĐỔI)
+- Việc dùng Index là "Đổi một chút tốc độ ghi để lấy rất nhiều tốc độ đọc".
+- Trong bài toán bệnh viện: Việc tìm kiếm bệnh nhân cũ diễn ra liên tục và gây ùn tắc, nên việc đánh Index lên cột Phone là cực kỳ cần thiết và hiệu quả.
